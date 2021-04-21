@@ -4,12 +4,16 @@ void main() {
   runApp(MyApp());
 }
 
+// this is the main app layout or main widget
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // this is shown on the tab
       title: "Login Page",
+      // this is the actual content of the page
       home: LoginPage(),
+      // this sets the color of the app
       theme: ThemeData(
         primarySwatch: Colors.lightBlue,
       ),
@@ -17,32 +21,41 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// this is the stateful widget
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
+//  this is imported for the animation as we're having only one animation we have imported the single mixin
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
+  // this controls the animation
   AnimationController _iconAnimationController;
+  // this is the actual animation
   Animation<double> _iconAnimation;
 
+  // this is the method used to control the animation
   @override
   void initState() {
     super.initState();
+    // this creates the animation controller
     _iconAnimationController = AnimationController(
       vsync: this,
       duration: Duration(
         milliseconds: 500,
       ),
     );
+    // this creates the animation with parent as the animation controller and curve as the animation you want to perform
     _iconAnimation = CurvedAnimation(
       parent: _iconAnimationController,
       curve: Curves.easeOut,
     );
+    // this activates the animation
     _iconAnimation.addListener(() {
       this.setState(() {});
     });
+    // this starts the animation
     _iconAnimationController.forward();
   }
 
@@ -56,7 +69,9 @@ class _LoginPageState extends State<LoginPage>
           style: TextStyle(color: Colors.white),
         ),
       ),
+      // this is used when we want to put one widget over the other
       body: Stack(
+        // this stretches the widget over the screen
         fit: StackFit.expand,
         children: [
           Image(
@@ -69,9 +84,11 @@ class _LoginPageState extends State<LoginPage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FlutterLogo(
+                // this is how we use animation in the widget
                 size: _iconAnimation.value * 100,
               ),
               Form(
+                // theme is used for styling the widget
                 child: Theme(
                   data: ThemeData(
                     brightness: Brightness.dark,
@@ -99,6 +116,7 @@ class _LoginPageState extends State<LoginPage>
                             labelText: "Password...",
                           ),
                           keyboardType: TextInputType.text,
+                          // this hides the input entered
                           obscureText: true,
                         ),
                         Padding(
@@ -111,6 +129,7 @@ class _LoginPageState extends State<LoginPage>
                           textColor: Colors.white,
                           child: Icon(Icons.arrow_forward),
                           onPressed: () {},
+                          // this is called when we click on the button
                           splashColor: Colors.red,
                         ),
                       ],
